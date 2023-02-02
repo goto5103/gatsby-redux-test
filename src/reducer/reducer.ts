@@ -11,13 +11,13 @@ import { ICountAction } from '../actions/countActions';
  * @param action
  * @returns
  */
-const reducer = (state: any, action: IAction) => {
-  console.log(reducer.name, { state, action });
+const appReducer = (state: any, action: IAction) => {
+  console.log(appReducer.name, { state, action });
   if (countReducer.isCountAction(action)) {
-    console.log(reducer.name, 'isCountAction');
+    console.log(appReducer.name, 'isCountAction');
     return countReducer.reducer(state, action as ICountAction);
   }
 
   return state;
 };
-export default reducer;
+export default appReducer;
