@@ -34,17 +34,13 @@ const increment = (state: IAppState, count: number) => {
  * @returns
  */
 const isCountAction = (arg: unknown) => {
-  console.log(
-    arg != null,
-    typeof arg === 'object',
-    typeof (arg as ICountAction).count === 'number',
-    typeof (arg as ICountAction).type === 'string',
-  );
   return (
     arg != null &&
     typeof arg === 'object' &&
     typeof (arg as ICountAction).count === 'number' &&
-    typeof (arg as ICountAction).type === 'string'
+    Object.entries(countActionTypes).some(
+      ([_, v]) => v === (arg as ICountAction).type,
+    )
   );
 };
 
