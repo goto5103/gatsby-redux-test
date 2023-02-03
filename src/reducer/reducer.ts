@@ -22,21 +22,20 @@ interface ReducerExec2 {
 const appReducer = (state: any, action: IAction) => {
   console.log(appReducer.name, { state, action });
   try {
-    const reducerExec: ReducerExec[] = [
-      {
-        check: isCountAction,
-        reducer: countReducer(state, action as ICountAction),
-      },
-    ];
+    // TODO 強引にif文消しすぎか
+    // const reducerExec: ReducerExec[] = [
+    //   {
+    //     check: isCountAction,
+    //     reducer: countReducer(state, action as ICountAction),
+    //   },
+    // ];
 
-    return reducerExec.find((x) => x.check(action))?.reducer ?? state;
+    // return reducerExec.find((x) => x.check(action))?.reducer ?? state;
 
-    // こっちのほうが誰でもわかる書き方
-    //
-    // if (isCountAction(action)) {
-    //   return countReducer(state, action as ICountAction);
-    // }
-    // return state;
+    if (isCountAction(action)) {
+      return countReducer(state, action as ICountAction);
+    }
+    return state;
   } catch (error) {
     console.error(appReducer.name, error);
     return state;
