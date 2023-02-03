@@ -1,7 +1,15 @@
 import { IAction } from '../actions/actions';
 import { countReducer } from './countReducer';
-import { ICountAction } from '../actions/countActions';
-
+import { ICountAction, isCountAction } from '../actions/countActions';
+import { IAppState } from '../state/createStore';
+interface ReducerExec {
+  check: (arg: unknown) => boolean;
+  reducer: IAppState;
+}
+interface ReducerExec2 {
+  check: (arg: unknown) => boolean;
+  reducer: <T extends IAction>(state: IAppState, action: IAction) => IAppState;
+}
 /**
  * reducer
  *
@@ -13,11 +21,25 @@ import { ICountAction } from '../actions/countActions';
  */
 const appReducer = (state: any, action: IAction) => {
   console.log(appReducer.name, { state, action });
-  if (countReducer.isCountAction(action)) {
-    console.log(appReducer.name, 'isCountAction');
-    return countReducer.reducer(state, action as ICountAction);
-  }
+  try {
+    const reducerExec: ReducerExec[] = [
+      {
+        check: isCountAction,
+        reducer: countReducer(state, action as ICountAction),
+      },
+    ];
 
-  return state;
+    return reducerExec.find((x) => x.check(action))?.reducer ?? state;
+
+    // こっちのほうが誰でもわかる書き方
+    //
+    // if (isCountAction(action)) {
+    //   return countReducer(state, action as ICountAction);
+    // }
+    // return state;
+  } catch (error) {
+    console.error(appReducer.name, error);
+    return state;
+  }
 };
 export default appReducer;

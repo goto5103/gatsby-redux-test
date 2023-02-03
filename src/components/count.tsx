@@ -14,7 +14,7 @@ const Count: React.FC<IProps> = ({ count }) => {
   return (
     <>
       <button onClick={handleIncrement}>インクリメント + {count}</button>
-      <p>{JSON.stringify(state.count)}</p>
+      <p>{state?.count}</p>
     </>
   );
 };

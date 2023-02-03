@@ -11,7 +11,7 @@ const reducer = (state = initialState, action: ICountAction) => {
     };
     return exec[action.type]();
   } catch (error) {
-    console.error(countReducer.reducer.name, error);
+    console.error(reducer.name, error);
     return state;
   }
 };
@@ -22,29 +22,10 @@ const reducer = (state = initialState, action: ICountAction) => {
  * @param count
  * @returns
  */
-const increment = (state: IAppState, count: number) => {
+const increment = (state: IAppState, count: number): IAppState => {
   return Object.assign({}, state, {
     count: state.count + count,
   });
 };
 
-/**
- * 型チェック
- * @param arg
- * @returns
- */
-const isCountAction = (arg: unknown) => {
-  return (
-    arg != null &&
-    typeof arg === 'object' &&
-    typeof (arg as ICountAction).count === 'number' &&
-    Object.entries(countActionTypes).some(
-      ([_, v]) => v === (arg as ICountAction).type,
-    )
-  );
-};
-
-export const countReducer = {
-  reducer,
-  isCountAction,
-};
+export const countReducer = reducer;

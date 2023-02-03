@@ -29,6 +29,22 @@ const increment = (count: number): ICountAction => {
   return result;
 };
 
+/**
+ * 型チェック
+ * @param arg
+ * @returns
+ */
+export const isCountAction = (arg: unknown) => {
+  return (
+    arg != null &&
+    typeof arg === 'object' &&
+    typeof (arg as ICountAction).count === 'number' &&
+    Object.entries(countActionTypes).some(
+      ([_, v]) => v === (arg as ICountAction).type,
+    )
+  );
+};
+
 export const countActions = {
   increment,
 };
